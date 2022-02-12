@@ -1,6 +1,6 @@
 use std::fmt::{self, Debug, Display, Formatter};
 
-type BoxError = Box<dyn std::error::Error + Send + Sync>;
+type BoxError = Box<dyn std::error::Error>;
 
 /// A set of errors that can occur during parsing multipart stream and in other
 /// operations.

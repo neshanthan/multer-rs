@@ -104,9 +104,9 @@ impl<'r> Multipart<'r> {
     /// the boundary.
     pub fn new<S, O, E, B>(stream: S, boundary: B) -> Self
     where
-        S: Stream<Item = Result<O, E>> + Send + 'r,
+        S: Stream<Item = Result<O, E>> + 'r,
         O: Into<Bytes> + 'static,
-        E: Into<Box<dyn std::error::Error + Send + Sync>> + 'r,
+        E: Into<Box<dyn std::error::Error>> + 'r,
         B: Into<String>,
     {
         Multipart::with_constraints(stream, boundary, Constraints::default())
@@ -116,9 +116,9 @@ impl<'r> Multipart<'r> {
     /// the boundary.
     pub fn with_constraints<S, O, E, B>(stream: S, boundary: B, constraints: Constraints) -> Self
     where
-        S: Stream<Item = Result<O, E>> + Send + 'r,
+        S: Stream<Item = Result<O, E>> + 'r,
         O: Into<Bytes> + 'static,
-        E: Into<Box<dyn std::error::Error + Send + Sync>> + 'r,
+        E: Into<Box<dyn std::error::Error>> + 'r,
         B: Into<String>,
     {
         let stream = stream
@@ -169,7 +169,7 @@ impl<'r> Multipart<'r> {
     #[cfg_attr(nightly, doc(cfg(feature = "tokio-io")))]
     pub fn with_reader<R, B>(reader: R, boundary: B) -> Self
     where
-        R: AsyncRead + Unpin + Send + 'r,
+        R: AsyncRead + Unpin + 'r,
         B: Into<String>,
     {
         let stream = ReaderStream::new(reader);
@@ -206,7 +206,7 @@ impl<'r> Multipart<'r> {
     #[cfg_attr(nightly, doc(cfg(feature = "tokio-io")))]
     pub fn with_reader_with_constraints<R, B>(reader: R, boundary: B, constraints: Constraints) -> Self
     where
-        R: AsyncRead + Unpin + Send + 'r,
+        R: AsyncRead + Unpin + 'r,
         B: Into<String>,
     {
         let stream = ReaderStream::new(reader);
